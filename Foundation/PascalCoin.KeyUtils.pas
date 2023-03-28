@@ -972,9 +972,23 @@ End;
 Class Function TKeyUtils.IntFromTwoByteHex(Const Value: String): Integer;
 Var
   lBytes: TBytes;
+
+  // Skybuck: Attempting fix
+  vSomething : TCryptoLibMatrixByteArray;
 Begin
   lBytes := THEX.Decode(Value);
-  lBytes := TArrayUtils.Concatenate(lBytes, [0, 0]);
+  // original:
+//  lBytes := TArrayUtils.Concatenate(lBytes, [0, 0]);
+
+  // Skybuck: Attempting fix
+  // Skybuck: potential for error, not sure if this creates the array in the same way.
+  // Skybuck: potential for memory leak
+  // Skybuck: potential for maybe references going out of scope being cleaned up
+  // Skybuck: potential for memory access violations later.
+  // Skybuck: not sure what is going to happen
+  vSomething := TCryptoLibMatrixByteArray.Create( 0, 0 );
+  lBytes := TArrayUtils.Concatenate(lBytes, vSomething);
+
   Result := TConverters.ReadBytesAsUInt32LE(PByte(lBytes), 0)
 End;
 

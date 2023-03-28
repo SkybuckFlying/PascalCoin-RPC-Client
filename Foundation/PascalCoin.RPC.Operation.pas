@@ -221,21 +221,33 @@ Begin
   SetLength(Result.FSenders, lArr.Count);
   For I := 0 To lArr.Count - 1 Do
   Begin
-    Result.FSenders[I] := TJSON.JsonToObject<TPascalCoinSender>(lArr[I] As TJSONObject);
+	// original:
+//    Result.FSenders[I] := TJSON.JsonToObject<TPascalCoinSender>(lArr[I] As TJSONObject);
+
+	// Skybuck: Attempting fix
+	Result.FSenders[I] := TJSON.JsonToObject<TPascalCoinSender>(lArr.Items[I] As TJSONObject);
   End;
 
   lArr := lObj.Values['receivers'] As TJSONArray;
   SetLength(Result.FReceivers, lArr.Count);
   For I := 0 To lArr.Count - 1 Do
   Begin
-    Result.FReceivers[I] := TJSON.JsonToObject<TPascalCoinReceiver>(lArr[I] As TJSONObject);
+	// original:
+//	Result.FReceivers[I] := TJSON.JsonToObject<TPascalCoinReceiver>(lArr[I] As TJSONObject);
+
+	// Skybuck: Attempting fix
+	Result.FReceivers[I] := TJSON.JsonToObject<TPascalCoinReceiver>(lArr.Items[I] As TJSONObject);
   End;
 
   lArr := lObj.Values['changers'] As TJSONArray;
   SetLength(Result.FChangers, lArr.Count);
   For I := 0 To lArr.Count - 1 Do
   Begin
-    Result.FChangers[I] := TJSON.JsonToObject<TPascalCoinChanger>(lArr[I] As TJSONObject);
+	// original:
+//    Result.FChangers[I] := TJSON.JsonToObject<TPascalCoinChanger>(lArr[I] As TJSONObject);
+
+	// Skybuck: Attempting fix:
+	Result.FChangers[I] := TJSON.JsonToObject<TPascalCoinChanger>(lArr.Items[I] As TJSONObject);
   End;
 
 End;
@@ -502,7 +514,11 @@ Begin
   SetLength(Result.FOperations, AOps.Count);
   For I := 0 To AOps.Count - 1 Do
   Begin
-    Result.FOperations[I] := TPascalCoinOperation.FromJSONValue(AOps[I]);
+	// original:
+//	Result.FOperations[I] := TPascalCoinOperation.FromJSONValue(AOps[I]);
+
+	// Skybuck: Attempting fix
+	Result.FOperations[I] := TPascalCoinOperation.FromJSONValue(AOps.Items[I]);
   End;
 End;
 

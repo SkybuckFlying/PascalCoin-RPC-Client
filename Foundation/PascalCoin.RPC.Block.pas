@@ -201,7 +201,11 @@ Begin
   SetLength(result.FBlocks, ABlocks.Count);
   For I := 0 To ABlocks.Count - 1 Do
   Begin
-    result.FBlocks[I] := TJSON.JsonToObject<TPascalCoinBlock>(ABlocks[I] As TJSONObject);
+	// original:
+//    result.FBlocks[I] := TJSON.JsonToObject<TPascalCoinBlock>(ABlocks[I] As TJSONObject);
+
+	// Skybuck: Attempting fix
+	result.FBlocks[I] := TJSON.JsonToObject<TPascalCoinBlock>(ABlocks.Items[I] As TJSONObject);
   End;
 
 End;

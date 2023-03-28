@@ -153,16 +153,21 @@ Begin
       FResultValue := FResponseObj.GetValue('result');
 
       If FResultValue is TJSONArray then
-      begin
-        lArray := FResultValue as TJSONArray;
+	  begin
+		lArray := FResultValue as TJSONArray;
         if lArray.Count > 0 then
-        begin
-          lErrObj := lArray[0] as TJSONObject;
-          lStatusValue := lErrObj.FindValue('valid');
+		begin
+
+			// original code:
+//          lErrObj := lArray[0] as TJSONObject;
+
+			// Skybuck: Attempting Fix
+			lErrObj := lArray.Items[0] as TJSONObject;
+		  lStatusValue := lErrObj.FindValue('valid');
           if (lStatusValue <> nil) and (lStatusValue.AsType<boolean> = false) then
           begin
             FResponseStr := '';
-            raise GetRPCExceptionByMethod(AMethod, lErrObj.Values['errors'].AsType<String>);
+			raise GetRPCExceptionByMethod(AMethod, lErrObj.Values['errors'].AsType<String>);
           end;
 
         end;
